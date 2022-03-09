@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import qa.engineeric.product.service.ReviewsService;
 
 /**
  * Product sold by the Online store
@@ -28,6 +29,9 @@ public class Product implements Serializable {
     @NotNull
     @Field("user_store_owner_id")
     private String userStoreOwnerId;
+
+    @Field("web_key")
+    private String webKey;
 
     @NotNull
     @Field("product_name")
@@ -66,6 +70,8 @@ public class Product implements Serializable {
     @Field("date_modified")
     private LocalDate dateModified;
 
+    private Rating rating;
+
     @DBRef
     @Field("categories")
     @JsonIgnoreProperties(value = { "products" }, allowSetters = true)
@@ -84,6 +90,14 @@ public class Product implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
 
     public String getUserStoreOwnerId() {
@@ -310,5 +324,19 @@ public class Product implements Serializable {
             ", dateAdded='" + getDateAdded() + "'" +
             ", dateModified='" + getDateModified() + "'" +
             "}";
+    }
+
+    /**
+     * @return String return the webKey
+     */
+    public String getWebKey() {
+        return webKey;
+    }
+
+    /**
+     * @param webKey the webKey to set
+     */
+    public void setWebKey(String webKey) {
+        this.webKey = webKey;
     }
 }

@@ -18,8 +18,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import qa.engineeric.product.IntegrationTest;
 import qa.engineeric.product.domain.OrderItem;
-import qa.engineeric.product.domain.Product;
-import qa.engineeric.product.domain.ProductOrder;
 import qa.engineeric.product.domain.enumeration.OrderItemStatus;
 import qa.engineeric.product.repository.OrderItemRepository;
 
@@ -49,8 +47,8 @@ class OrderItemResourceIT {
     private static final String DEFAULT_PAYMENT_ID = "AAAAAAAAAA";
     private static final String UPDATED_PAYMENT_ID = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_ORDER_NUMBER = 1;
-    private static final Integer UPDATED_ORDER_NUMBER = 2;
+    private static final String DEFAULT_ORDER_NUMBER = "1";
+    private static final String UPDATED_ORDER_NUMBER = "2";
 
     private static final String ENTITY_API_URL = "/api/order-items";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -75,19 +73,8 @@ class OrderItemResourceIT {
             .userId(DEFAULT_USER_ID)
             .quantity(DEFAULT_QUANTITY)
             .totalPrice(DEFAULT_TOTAL_PRICE)
-            .status(DEFAULT_STATUS)
             .paymentId(DEFAULT_PAYMENT_ID)
             .orderNumber(DEFAULT_ORDER_NUMBER);
-        // Add required entity
-        Product product;
-        product = ProductResourceIT.createEntity();
-        product.setId("fixed-id-for-tests");
-        orderItem.setProduct(product);
-        // Add required entity
-        ProductOrder productOrder;
-        productOrder = ProductOrderResourceIT.createEntity();
-        productOrder.setId("fixed-id-for-tests");
-        orderItem.setOrder(productOrder);
         return orderItem;
     }
 
@@ -103,19 +90,8 @@ class OrderItemResourceIT {
             .userId(UPDATED_USER_ID)
             .quantity(UPDATED_QUANTITY)
             .totalPrice(UPDATED_TOTAL_PRICE)
-            .status(UPDATED_STATUS)
             .paymentId(UPDATED_PAYMENT_ID)
             .orderNumber(UPDATED_ORDER_NUMBER);
-        // Add required entity
-        Product product;
-        product = ProductResourceIT.createUpdatedEntity();
-        product.setId("fixed-id-for-tests");
-        orderItem.setProduct(product);
-        // Add required entity
-        ProductOrder productOrder;
-        productOrder = ProductOrderResourceIT.createUpdatedEntity();
-        productOrder.setId("fixed-id-for-tests");
-        orderItem.setOrder(productOrder);
         return orderItem;
     }
 
@@ -335,7 +311,6 @@ class OrderItemResourceIT {
             .userId(UPDATED_USER_ID)
             .quantity(UPDATED_QUANTITY)
             .totalPrice(UPDATED_TOTAL_PRICE)
-            .status(UPDATED_STATUS)
             .paymentId(UPDATED_PAYMENT_ID)
             .orderNumber(UPDATED_ORDER_NUMBER);
 
@@ -428,7 +403,6 @@ class OrderItemResourceIT {
             .userStoreOwnerId(UPDATED_USER_STORE_OWNER_ID)
             .quantity(UPDATED_QUANTITY)
             .totalPrice(UPDATED_TOTAL_PRICE)
-            .status(UPDATED_STATUS)
             .orderNumber(UPDATED_ORDER_NUMBER);
 
         restOrderItemMockMvc
@@ -468,7 +442,6 @@ class OrderItemResourceIT {
             .userId(UPDATED_USER_ID)
             .quantity(UPDATED_QUANTITY)
             .totalPrice(UPDATED_TOTAL_PRICE)
-            .status(UPDATED_STATUS)
             .paymentId(UPDATED_PAYMENT_ID)
             .orderNumber(UPDATED_ORDER_NUMBER);
 

@@ -104,4 +104,12 @@ public class OrderItemService {
         log.debug("Request to delete OrderItem : {}", id);
         orderItemRepository.deleteById(id);
     }
+
+    public Optional<OrderItem> findOneByPaymentId(String id) {
+        return orderItemRepository.findByPaymentId(id);
+    }
+
+    public Page<OrderItem> findAllByUserId(Pageable pageable, String id) {
+        return orderItemRepository.findAllByUserId(pageable, id);
+    }
 }

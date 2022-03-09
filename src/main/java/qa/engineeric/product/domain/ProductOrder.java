@@ -1,13 +1,9 @@
 package qa.engineeric.product.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import qa.engineeric.product.domain.enumeration.OrderStatus;
@@ -26,6 +22,9 @@ public class ProductOrder implements Serializable {
     @NotNull
     @Field("user_store_owner_id")
     private String userStoreOwnerId;
+
+    @Field("web_key")
+    private String webKey;
 
     @NotNull
     @Field("user_id")
@@ -49,11 +48,6 @@ public class ProductOrder implements Serializable {
     @NotNull
     @Field("customer")
     private String customer;
-
-    @DBRef
-    @Field("orderItem")
-    @JsonIgnoreProperties(value = { "product", "order" }, allowSetters = true)
-    private Set<OrderItem> orderItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -159,37 +153,6 @@ public class ProductOrder implements Serializable {
 
     public void setCustomer(String customer) {
         this.customer = customer;
-    }
-
-    public Set<OrderItem> getOrderItems() {
-        return this.orderItems;
-    }
-
-    public void setOrderItems(Set<OrderItem> orderItems) {
-        if (this.orderItems != null) {
-            this.orderItems.forEach(i -> i.setOrder(null));
-        }
-        if (orderItems != null) {
-            orderItems.forEach(i -> i.setOrder(this));
-        }
-        this.orderItems = orderItems;
-    }
-
-    public ProductOrder orderItems(Set<OrderItem> orderItems) {
-        this.setOrderItems(orderItems);
-        return this;
-    }
-
-    public ProductOrder addOrderItem(OrderItem orderItem) {
-        this.orderItems.add(orderItem);
-        orderItem.setOrder(this);
-        return this;
-    }
-
-    public ProductOrder removeOrderItem(OrderItem orderItem) {
-        this.orderItems.remove(orderItem);
-        orderItem.setOrder(null);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

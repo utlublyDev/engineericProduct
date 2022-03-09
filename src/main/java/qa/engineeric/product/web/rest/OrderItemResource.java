@@ -152,6 +152,17 @@ public class OrderItemResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/order-items/store/web/{id}")
+    public ResponseEntity<List<OrderItem>> getAllOrderItemsById(
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        @PathVariable String id
+    ) {
+        log.debug("REST request to get a page of OrderItems");
+        Page<OrderItem> page = orderItemService.findAllByUserId(pageable, id);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /order-items/:id} : get the "id" orderItem.
      *
@@ -162,6 +173,13 @@ public class OrderItemResource {
     public ResponseEntity<OrderItem> getOrderItem(@PathVariable String id) {
         log.debug("REST request to get OrderItem : {}", id);
         Optional<OrderItem> orderItem = orderItemService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(orderItem);
+    }
+
+    @GetMapping("/order-items/by/id/{id}")
+    public ResponseEntity<OrderItem> getOrderItemByPaymentId(@PathVariable String id) {
+        log.debug("REST request to get OrderItem : {}", id);
+        Optional<OrderItem> orderItem = orderItemService.findOneByPaymentId(id);
         return ResponseUtil.wrapOrNotFound(orderItem);
     }
 

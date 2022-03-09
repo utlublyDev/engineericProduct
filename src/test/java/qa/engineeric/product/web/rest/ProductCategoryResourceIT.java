@@ -65,6 +65,9 @@ class ProductCategoryResourceIT {
     private static final CategoryStatus DEFAULT_STATUS = CategoryStatus.AVAILABLE;
     private static final CategoryStatus UPDATED_STATUS = CategoryStatus.RESTRICTED;
 
+    private static final String DEFAULT_WEB_KEY = "AAAAAAAAAA";
+    private static final String UPDATED_WEB_KEY = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/product-categories";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -98,7 +101,8 @@ class ProductCategoryResourceIT {
             .sortOrder(DEFAULT_SORT_ORDER)
             .dateAdded(DEFAULT_DATE_ADDED)
             .dateModified(DEFAULT_DATE_MODIFIED)
-            .status(DEFAULT_STATUS);
+            .status(DEFAULT_STATUS)
+            .webKey(DEFAULT_WEB_KEY);
         return productCategory;
     }
 
@@ -118,7 +122,8 @@ class ProductCategoryResourceIT {
             .sortOrder(UPDATED_SORT_ORDER)
             .dateAdded(UPDATED_DATE_ADDED)
             .dateModified(UPDATED_DATE_MODIFIED)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .webKey(UPDATED_WEB_KEY);
         return productCategory;
     }
 
@@ -151,6 +156,7 @@ class ProductCategoryResourceIT {
         assertThat(testProductCategory.getDateAdded()).isEqualTo(DEFAULT_DATE_ADDED);
         assertThat(testProductCategory.getDateModified()).isEqualTo(DEFAULT_DATE_MODIFIED);
         assertThat(testProductCategory.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testProductCategory.getWebKey()).isEqualTo(DEFAULT_WEB_KEY);
     }
 
     @Test
@@ -245,7 +251,8 @@ class ProductCategoryResourceIT {
             .andExpect(jsonPath("$.[*].sortOrder").value(hasItem(DEFAULT_SORT_ORDER)))
             .andExpect(jsonPath("$.[*].dateAdded").value(hasItem(DEFAULT_DATE_ADDED.toString())))
             .andExpect(jsonPath("$.[*].dateModified").value(hasItem(DEFAULT_DATE_MODIFIED.toString())))
-            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].webKey").value(hasItem(DEFAULT_WEB_KEY)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -285,7 +292,8 @@ class ProductCategoryResourceIT {
             .andExpect(jsonPath("$.sortOrder").value(DEFAULT_SORT_ORDER))
             .andExpect(jsonPath("$.dateAdded").value(DEFAULT_DATE_ADDED.toString()))
             .andExpect(jsonPath("$.dateModified").value(DEFAULT_DATE_MODIFIED.toString()))
-            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.webKey").value(DEFAULT_WEB_KEY));
     }
 
     @Test
@@ -312,7 +320,8 @@ class ProductCategoryResourceIT {
             .sortOrder(UPDATED_SORT_ORDER)
             .dateAdded(UPDATED_DATE_ADDED)
             .dateModified(UPDATED_DATE_MODIFIED)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .webKey(UPDATED_WEB_KEY);
 
         restProductCategoryMockMvc
             .perform(
@@ -335,6 +344,7 @@ class ProductCategoryResourceIT {
         assertThat(testProductCategory.getDateAdded()).isEqualTo(UPDATED_DATE_ADDED);
         assertThat(testProductCategory.getDateModified()).isEqualTo(UPDATED_DATE_MODIFIED);
         assertThat(testProductCategory.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testProductCategory.getWebKey()).isEqualTo(UPDATED_WEB_KEY);
     }
 
     @Test
@@ -407,7 +417,8 @@ class ProductCategoryResourceIT {
             .userStoreOwnerId(UPDATED_USER_STORE_OWNER_ID)
             .productCategoryNameInArabic(UPDATED_PRODUCT_CATEGORY_NAME_IN_ARABIC)
             .productCategoryDescriptionInArabic(UPDATED_PRODUCT_CATEGORY_DESCRIPTION_IN_ARABIC)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .webKey(UPDATED_WEB_KEY);
 
         restProductCategoryMockMvc
             .perform(
@@ -430,6 +441,7 @@ class ProductCategoryResourceIT {
         assertThat(testProductCategory.getDateAdded()).isEqualTo(DEFAULT_DATE_ADDED);
         assertThat(testProductCategory.getDateModified()).isEqualTo(DEFAULT_DATE_MODIFIED);
         assertThat(testProductCategory.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testProductCategory.getWebKey()).isEqualTo(UPDATED_WEB_KEY);
     }
 
     @Test
@@ -452,7 +464,8 @@ class ProductCategoryResourceIT {
             .sortOrder(UPDATED_SORT_ORDER)
             .dateAdded(UPDATED_DATE_ADDED)
             .dateModified(UPDATED_DATE_MODIFIED)
-            .status(UPDATED_STATUS);
+            .status(UPDATED_STATUS)
+            .webKey(UPDATED_WEB_KEY);
 
         restProductCategoryMockMvc
             .perform(
@@ -475,6 +488,7 @@ class ProductCategoryResourceIT {
         assertThat(testProductCategory.getDateAdded()).isEqualTo(UPDATED_DATE_ADDED);
         assertThat(testProductCategory.getDateModified()).isEqualTo(UPDATED_DATE_MODIFIED);
         assertThat(testProductCategory.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testProductCategory.getWebKey()).isEqualTo(UPDATED_WEB_KEY);
     }
 
     @Test

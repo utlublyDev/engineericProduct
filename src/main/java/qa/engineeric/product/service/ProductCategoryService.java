@@ -74,6 +74,9 @@ public class ProductCategoryService {
                 if (productCategory.getStatus() != null) {
                     existingProductCategory.setStatus(productCategory.getStatus());
                 }
+                if (productCategory.getWebKey() != null) {
+                    existingProductCategory.setWebKey(productCategory.getWebKey());
+                }
 
                 return existingProductCategory;
             })
@@ -118,5 +121,9 @@ public class ProductCategoryService {
     public void delete(String id) {
         log.debug("Request to delete ProductCategory : {}", id);
         productCategoryRepository.deleteById(id);
+    }
+
+    public List<ProductCategory> findAllByUserStoreOwnerIdAndWebKey(String userStoreOwnerId, String webKey) {
+        return productCategoryRepository.findAllByUserStoreOwnerIdAndWebKey(userStoreOwnerId, webKey);
     }
 }

@@ -2,9 +2,7 @@ package qa.engineeric.product.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -12,9 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import qa.engineeric.product.domain.CategoriesNames;
+import qa.engineeric.product.domain.Product;
 import qa.engineeric.product.domain.ProductCategory;
+import qa.engineeric.product.domain.ProductsForApis;
 import qa.engineeric.product.repository.ProductCategoryRepository;
 import qa.engineeric.product.service.ProductCategoryService;
+import qa.engineeric.product.service.ReviewsService;
 import qa.engineeric.product.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -36,10 +38,16 @@ public class ProductCategoryResource {
     private final ProductCategoryService productCategoryService;
 
     private final ProductCategoryRepository productCategoryRepository;
+    private final ReviewsService reviewsService;
 
-    public ProductCategoryResource(ProductCategoryService productCategoryService, ProductCategoryRepository productCategoryRepository) {
+    public ProductCategoryResource(
+        ProductCategoryService productCategoryService,
+        ProductCategoryRepository productCategoryRepository,
+        ReviewsService reviewsService
+    ) {
         this.productCategoryService = productCategoryService;
         this.productCategoryRepository = productCategoryRepository;
+        this.reviewsService = reviewsService;
     }
 
     /**
@@ -143,6 +151,61 @@ public class ProductCategoryResource {
     public List<ProductCategory> getAllProductCategories(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all ProductCategories");
         return productCategoryService.findAll();
+    }
+
+    @GetMapping("/product-categories/store/web/categoriesNames/{userStoreOwnerId}/{webKey}")
+    public List<CategoriesNames> getAllProductCategoriesByNames(
+        @PathVariable String userStoreOwnerId,
+        @PathVariable String webKey,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
+        log.debug("REST request to get all ProductCategories");
+        List<CategoriesNames> categoryName = new ArrayList<>();
+
+        List<ProductCategory> productCategory = productCategoryService.findAllByUserStoreOwnerIdAndWebKey(userStoreOwnerId, webKey);
+        for (int i = 0; i < productCategory.size(); i++) {
+            CategoriesNames objects = new CategoriesNames();
+            objects.setId(productCategory.get(i).getId());
+            objects.setCategoriesName(productCategory.get(i).getProductCategoryName());
+            objects.setImageUrl(productCategory.get(i).getImageUrl());
+            categoryName.add(objects);
+        }
+        return categoryName;
+    }
+
+    @GetMapping("/product-categories/store/web/{userStoreOwnerId}/{webKey}")
+    public List<ProductsForApis> getAllProductCategoriesByUserStoreOwnerIdAndWebKey(
+        @PathVariable String userStoreOwnerId,
+        @PathVariable String webKey,
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload
+    ) {
+        log.debug("REST request to get all ProductCategories");
+        List<ProductCategory> productCategory = productCategoryService.findAllByUserStoreOwnerIdAndWebKey(userStoreOwnerId, webKey);
+        Product productCategoryNew = new Product();
+
+        List<ProductsForApis> products = new ArrayList<>();
+
+        for (int i = 0; i < productCategory.size(); i++) {
+            Iterator<Product> IteratorProduct = productCategory.get(i).getProducts().iterator();
+
+            while (IteratorProduct.hasNext()) {
+                productCategoryNew = IteratorProduct.next();
+                ProductsForApis productsForApis = new ProductsForApis();
+                productsForApis.setId(productCategoryNew.getId());
+                productsForApis.setCategory(productCategory.get(i).getProductCategoryName());
+                productsForApis.setDescription(productCategoryNew.getProductDescription());
+                productsForApis.setTitle(productCategoryNew.getProductName());
+                productsForApis.setPrice(productCategoryNew.getPrice());
+                productsForApis.setImage(productCategoryNew.getImageUrl());
+                productsForApis.setUserStoreOwnerId(productCategory.get(i).getUserStoreOwnerId());
+                productsForApis.setWebKey(productCategory.get(i).getWebKey());
+                productsForApis.setRating(reviewsService.findAllByProdcutsId(productCategoryNew.getId()));
+
+                products.add(productsForApis);
+            }
+        }
+
+        return products;
     }
 
     /**

@@ -1,11 +1,12 @@
 package qa.engineeric.product.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.List;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import qa.engineeric.product.domain.enumeration.OrderItemStatus;
@@ -21,7 +22,6 @@ public class OrderItem implements Serializable {
     @Id
     private String id;
 
-    @NotNull
     @Field("user_store_owner_id")
     private String userStoreOwnerId;
 
@@ -29,19 +29,16 @@ public class OrderItem implements Serializable {
     @Field("user_id")
     private String userId;
 
-    @NotNull
     @Min(value = 0)
     @Field("quantity")
     private Integer quantity;
 
-    @NotNull
     @DecimalMin(value = "0")
     @Field("total_price")
     private BigDecimal totalPrice;
 
-    @NotNull
     @Field("status")
-    private OrderItemStatus status;
+    private String status;
 
     @NotNull
     @Field("payment_id")
@@ -49,17 +46,16 @@ public class OrderItem implements Serializable {
 
     @NotNull
     @Field("order_number")
-    private Integer orderNumber;
+    private String orderNumber;
 
-    @DBRef
-    @Field("product")
-    @JsonIgnoreProperties(value = { "categories" }, allowSetters = true)
-    private Product product;
+    @Field("web_key")
+    private String webKey;
 
-    @DBRef
-    @Field("order")
-    @JsonIgnoreProperties(value = { "orderItems" }, allowSetters = true)
-    private ProductOrder order;
+    @Field("date_added")
+    private ZonedDateTime dateAdded;
+
+    @Field("shopping_cart")
+    private List ShoppingCart;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -111,6 +107,14 @@ public class OrderItem implements Serializable {
         return this;
     }
 
+    public String getWebKey() {
+        return webKey;
+    }
+
+    public void setWebKey(String webKey) {
+        this.webKey = webKey;
+    }
+
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
@@ -128,16 +132,16 @@ public class OrderItem implements Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public OrderItemStatus getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public OrderItem status(OrderItemStatus status) {
+    public OrderItem status(String status) {
         this.setStatus(status);
         return this;
     }
 
-    public void setStatus(OrderItemStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -154,43 +158,17 @@ public class OrderItem implements Serializable {
         this.paymentId = paymentId;
     }
 
-    public Integer getOrderNumber() {
+    public String getOrderNumber() {
         return this.orderNumber;
     }
 
-    public OrderItem orderNumber(Integer orderNumber) {
+    public OrderItem orderNumber(String orderNumber) {
         this.setOrderNumber(orderNumber);
         return this;
     }
 
-    public void setOrderNumber(Integer orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
-    }
-
-    public Product getProduct() {
-        return this.product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public OrderItem product(Product product) {
-        this.setProduct(product);
-        return this;
-    }
-
-    public ProductOrder getOrder() {
-        return this.order;
-    }
-
-    public void setOrder(ProductOrder productOrder) {
-        this.order = productOrder;
-    }
-
-    public OrderItem order(ProductOrder productOrder) {
-        this.setOrder(productOrder);
-        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -210,6 +188,22 @@ public class OrderItem implements Serializable {
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
+    }
+
+    public ZonedDateTime getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(ZonedDateTime dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public List getShoppingCart() {
+        return ShoppingCart;
+    }
+
+    public void setShoppingCart(List shoppingCart) {
+        ShoppingCart = shoppingCart;
     }
 
     // prettier-ignore

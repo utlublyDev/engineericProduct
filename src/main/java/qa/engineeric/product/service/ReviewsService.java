@@ -1,11 +1,14 @@
 package qa.engineeric.product.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import qa.engineeric.product.domain.Rating;
 import qa.engineeric.product.domain.Reviews;
 import qa.engineeric.product.repository.ReviewsRepository;
 
@@ -90,6 +93,39 @@ public class ReviewsService {
     public Optional<Reviews> findOne(String id) {
         log.debug("Request to get Reviews : {}", id);
         return reviewsRepository.findById(id);
+    }
+
+    public Rating findAllByProdcutsId(String productId) {
+        Rating rating = new Rating();
+        int counterRatingFive = 0;
+        int counterRatingFour = 0;
+        int counterRatingThree = 0;
+        int counterRatingTwo = 0;
+        int counterRatingOne = 0;
+        double totalRating = 0;
+        List<Reviews> reviews = reviewsRepository.findAllByProdcutsId(productId);
+
+        for (int i = 0; i < reviews.size(); i++) {
+            if (reviews.get(i).getRating() == 5) {
+                counterRatingFive = counterRatingFive + 1; //will give me the number of rating that client give 5 starts
+            } else if (reviews.get(i).getRating() == 4) {
+                counterRatingFour = counterRatingFour + 1; //will give me the number of rating that client give 4 starts
+            } else if (reviews.get(i).getRating() == 3) {
+                counterRatingThree = counterRatingThree + 1; //will give me the number of rating that client give 3 starts
+            } else if (reviews.get(i).getRating() == 2) {
+                counterRatingTwo = counterRatingTwo + 1; //will give me the number of rating that client give 2 starts
+            } else if (reviews.get(i).getRating() == 1) {
+                counterRatingOne = counterRatingOne + 1; //will give me the number of rating that client give 1 starts
+            }
+        }
+
+        totalRating =
+            ((counterRatingFive * 5) + (counterRatingFour * 4) + (counterRatingThree * 3) + (counterRatingTwo * 2) + (counterRatingOne)) /
+            (reviews.size());
+
+        rating.setRate(totalRating);
+        rating.setCount(reviews.size());
+        return rating;
     }
 
     /**

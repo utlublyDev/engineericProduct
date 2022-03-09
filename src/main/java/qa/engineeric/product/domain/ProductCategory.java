@@ -53,6 +53,12 @@ public class ProductCategory implements Serializable {
     @Field("status")
     private CategoryStatus status;
 
+    @Field("web_key")
+    private String webKey;
+
+    @Field("image_url")
+    private String imageUrl;
+
     @DBRef
     @Field("products")
     @JsonIgnoreProperties(value = { "categories" }, allowSetters = true)
@@ -110,6 +116,14 @@ public class ProductCategory implements Serializable {
 
     public void setProductCategoryNameInArabic(String productCategoryNameInArabic) {
         this.productCategoryNameInArabic = productCategoryNameInArabic;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getProductCategoryDescription() {
@@ -190,6 +204,19 @@ public class ProductCategory implements Serializable {
         this.status = status;
     }
 
+    public String getWebKey() {
+        return this.webKey;
+    }
+
+    public ProductCategory webKey(String webKey) {
+        this.setWebKey(webKey);
+        return this;
+    }
+
+    public void setWebKey(String webKey) {
+        this.webKey = webKey;
+    }
+
     public Set<Product> getProducts() {
         return this.products;
     }
@@ -248,6 +275,7 @@ public class ProductCategory implements Serializable {
             ", dateAdded='" + getDateAdded() + "'" +
             ", dateModified='" + getDateModified() + "'" +
             ", status='" + getStatus() + "'" +
+            ", webKey='" + getWebKey() + "'" +
             "}";
     }
 }

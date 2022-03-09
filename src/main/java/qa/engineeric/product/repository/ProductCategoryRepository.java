@@ -22,4 +22,6 @@ public interface ProductCategoryRepository extends MongoRepository<ProductCatego
 
     @Query("{'id': ?0}")
     Optional<ProductCategory> findOneWithEagerRelationships(String id);
+
+    List<ProductCategory> findAllByUserStoreOwnerIdAndWebKey(String userStoreOwnerId, String webKey);
 }
