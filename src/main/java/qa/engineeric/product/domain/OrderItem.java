@@ -40,6 +40,17 @@ public class OrderItem implements Serializable {
     @Field("status")
     private String status;
 
+    @Field("store_order_status")
+    private String storeOrderStatus;
+
+    public String getStoreOrderStatus() {
+        return storeOrderStatus;
+    }
+
+    public void setStoreOrderStatus(String storeOrderStatus) {
+        this.storeOrderStatus = storeOrderStatus;
+    }
+
     @NotNull
     @Field("payment_id")
     private String paymentId;
